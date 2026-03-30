@@ -15,3 +15,16 @@
 - The service returned records in batches of 2000, so pagination was required.
 - The raw dataset contains 14,753 rows and 30 columns.
 - This raw file must remain unchanged.
+
+## Cleaning status from raw download
+
+- Raw downloaded rows: **14,753**
+- Rows retained after coordinate validation: **14,723**
+- Rows removed for missing/invalid coordinates: **30**
+
+## Notes
+- Cleaning was performed from the raw downloaded CSV:
+  - `data/raw/coolr/coolr_reports_points_raw.csv`
+- Cleaned outputs currently stored in:
+  - `data/interim/coolr_reports_points_clean.csv`
+  - `data/interim/coolr_reports_points_clean.geojson`

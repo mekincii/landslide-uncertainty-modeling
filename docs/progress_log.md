@@ -89,3 +89,91 @@
 
 ### Next step
 - Design the initial cleaning rules and canonical schema before any modeling.
+
+## 2026-03-30 — Initial cleaning and refinement of COOLR reports points
+
+### Initial cleaning pass
+- Created the first cleaning script:
+  - `data_pipeline/02_clean_inventory/02_clean_inventory.py`
+- Created the first cleaned outputs:
+  - `data/interim/coolr_reports_points_clean.csv`
+  - `data/interim/coolr_reports_points_clean.geojson`
+
+### Coordinate validation
+- Raw rows before filtering: **14,753**
+- Rows after coordinate validation: **14,723**
+- Removed rows: **30**
+
+Only rows with missing or invalid coordinates were removed in this first pass.
+
+### Initial observations from cleaned data
+- The dataset remains highly heterogeneous, especially in:
+  - `location_accuracy`
+  - `landslide_category`
+  - `landslide_trigger`
+- Missingness is substantial in several fields, especially:
+  - `storm_name`
+  - `comments`
+  - `injury_count`
+  - `event_time`
+
+### Refinement pass
+A second refinement pass was applied to improve categorical consistency.
+
+#### Location accuracy normalization
+The following additional variants were normalized:
+- `known exactly` -> `exact`
+- `known within 1 km` -> `1km`
+- `known within 5 km` -> `5km`
+- `known within 10 km` -> `10km`
+
+The following uncertainty class was also added:
+- `250km` -> `250000 m`
+
+After refinement:
+- all non-null `location_accuracy` values were successfully mapped
+- missing `uncertainty_radius_m` dropped to **1,026**
+- this remaining missingness corresponds to:
+  - `unknown`
+  - missing `location_accuracy`
+
+#### Landslide category normalization
+The following inconsistencies were harmonized:
+- `rotational_slide` -> `rotational slide`
+- `translational_slide` -> `translational slide`
+- `riverbank_collapse` -> `riverbank collapse`
+- `unkown` -> `unknown`
+
+#### Landslide trigger normalization
+The following rainfall-related triggers were merged under `rain`:
+- `downpour`
+- `heavy rain`
+- `heavy rainfall`
+- `continuous_rain`
+
+Additional formatting harmonization:
+- `snowfall_snowmelt` -> `snowfall snowmelt`
+- `no_apparent_trigger` -> `no apparent trigger`
+- `dam_embankment_collapse` -> `dam embankment collapse`
+- `leaking_pipe` -> `leaking pipe`
+
+### Current cleaned dataset state
+- Final cleaned rows: **14,723**
+- Cleaned outputs regenerated successfully
+
+### Current interpretation
+The cleaned dataset is now suitable for:
+- exploratory global analysis
+- uncertainty distribution analysis
+- source and category inspection
+- later region selection
+
+It is still not a final model-ready dataset.
+It should be treated as an **interim standardized observational inventory**.
+
+### Next step
+- create the first exploration script
+- inspect global spatial distribution
+- inspect source distribution
+- inspect country-level counts
+- inspect temporal coverage
