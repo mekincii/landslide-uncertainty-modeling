@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# IDE
+.idea/
+.vscode/
+
+# Data
+data/raw/*
+data/interim/*
+data/processed/*
+
+# Outputs
+outputs/maps/*
+outputs/models/*
+outputs/figures/*
+
+# OS
+.DS_Store
+Thumbs.db
