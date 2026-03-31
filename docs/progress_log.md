@@ -177,3 +177,51 @@ It should be treated as an **interim standardized observational inventory**.
 - inspect source distribution
 - inspect country-level counts
 - inspect temporal coverage
+
+### Exploration results
+- COOLR dataset is heavily dominated by GLC
+- strong geographic clustering observed
+- USA appears as highest-count country, indicating reporting bias
+- uncertainty distribution shows multiscale spatial precision
+- dataset is heterogeneous and biased, consistent with project assumptions
+
+### 2026-03-30 — Exploration finalized and temporal parsing corrected
+
+### Exploration outputs
+The following exploration figures were produced from the cleaned COOLR inventory:
+
+- global spatial distribution
+- top 20 countries by count
+- top 20 countries by count (log scale)
+- source distribution
+- uncertainty radius distribution
+- temporal distribution (diagnostic)
+- temporal trends for top countries (diagnostic)
+
+### Important finding: source dominance
+The exploration confirmed that the current COOLR reports points dataset is heavily dominated by GLC records, with additional sources contributing relatively small amounts of data.
+
+Interpretation:
+- COOLR should not be treated as an independent alternative to GLC
+- it is better interpreted as a composite inventory dominated by GLC with supplementary additions
+
+### Important finding: spatial bias
+The global map and country counts show strong geographic concentration in a limited set of countries and regions.
+
+Interpretation:
+- the dataset reflects reporting and source bias in addition to landslide occurrence
+- country-level counts should not be interpreted as direct proxies for true landslide frequency
+
+### Important finding: uncertainty heterogeneity
+The uncertainty distribution shows that the dataset contains multiple levels of spatial precision, including exact, 1 km, 5 km, 10 km, 25 km, 50 km, 100 km, and 250 km classes.
+
+Interpretation:
+- the dataset is inherently multi-resolution
+- spatial uncertainty should remain a core component of later modeling and analysis
+
+### Temporal note
+Temporal analysis required special handling because ArcGIS-style date fields were not parsed correctly in the initial cleaning pass.
+Date parsing was revised to support epoch-millisecond timestamps.
+
+Temporal outputs are retained primarily as diagnostic analyses.
+Temporal information is not currently considered reliable enough for the initial modeling phase.

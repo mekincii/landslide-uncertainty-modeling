@@ -42,3 +42,10 @@
 ### Output level
 - The current cleaned dataset is considered an interim standardized dataset.
 - It is suitable for exploration and dataset understanding, but not yet final modeling.
+
+## 2026-03-30 — Temporal field handling
+
+- ArcGIS-style timestamp fields are parsed using a mixed parser that prioritizes epoch milliseconds and falls back to standard datetime parsing.
+- Temporal fields are retained in the cleaned dataset.
+- Temporal analyses are currently treated as diagnostic rather than core modeling inputs.
+- Initial model design will prioritize spatial and environmental predictors rather than time-dependent triggering variables.

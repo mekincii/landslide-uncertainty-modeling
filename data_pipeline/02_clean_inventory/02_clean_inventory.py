@@ -52,6 +52,28 @@ LOCATION_ACCURACY_TO_RADIUS_M = {
     "unknown": pd.NA,
 }
 
+def parse_mixed_datetime(series):
+    """
+    Parse datetime values from a mixed column.
+
+    Handles:
+    - ArcGIS epoch milliseconds
+    - ISO/date-like strings
+    - missing values
+
+    Returns pandas datetime series.
+    """
+    numeric = pd.to_numeric(series, errors="coerce")
+
+    # First try ArcGIS-style epoch milliseconds
+    dt_from_ms = pd.to_datetime(numeric, unit="ms", errors="coerce")
+
+    # Then try normal string parsing
+    dt_from_str = pd.to_datetime(series, errors="coerce")
+
+    # Prefer millisecond parsing when available
+    return dt_from_ms.fillna(dt_from_str)
+
 
 def normalize_text(value):
     """Normalize text conservatively for categorical fields."""
@@ -193,8 +215,8 @@ def main():
 
     df = validate_coordinates(df)
 
-    df["event_date"] = pd.to_datetime(df["event_date"], errors="coerce")
-    df["submitted_date"] = pd.to_datetime(df["submitted_date"], errors="coerce")
+    df["event_date"] = parse_mixed_datetime(df["event_date"])
+    df["submitted_date"] = parse_mixed_datetime(df["submitted_date"])
 
     numeric_cols = ["fatality_count", "injury_count", "gazetteer_distance"]
     for col in numeric_cols:
